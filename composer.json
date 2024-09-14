@@ -1,0 +1,27 @@
+{
+  "name": "collaborar/forgge-app-core",
+  "description": "Core tools for the Forgge starter theme and plugin.",
+  "type": "library",
+  "keywords": [],
+  "license": "GPL-2.0-only",
+  "homepage": "https://github.com/Collaborar/forgge-app-core",
+  "authors": [
+    {
+      "name": "Collaborar team",
+      "email": "info@collaborar.com",
+      "homepage": "https://collaborar.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "collaborar/forgge": "@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "ForggeAppCore\\": "src/"
+    },
+    "files": [
+      "config.php"
+    ]
+  }
+}
