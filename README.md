@@ -1,3 +1,2 @@
 # Forgge App Core
-
-Refer to http://forgge.com/ for more information.
+Core tools for the Forgge starter theme and plugin.
