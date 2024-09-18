@@ -148,35 +148,56 @@ class Assets {
 	}
 
 	/**
+	 * 
+	 * Get the directory to a generated asset.
+	 *
+	 * @param mixed $asset
+	 * @return string
+	 */
+	public function getAssetDir( $asset ) {
+		$file = implode( DIRECTORY_SEPARATOR, [ $this->path, 'dist', $asset ] );
+
+		if ( ! $this->filesystem->exists( $file ) ) {
+			return '';
+		}
+
+		return $file;
+	}
+
+	/**
 	 * Get the public URL to a generated JS or CSS bundle.
-	 * Handles SCRIPT_DEBUG and hot reloading.
+	 * Handles hot reloading.
 	 *
 	 * @param string  $name Source basename (no extension).
 	 * @param string  $extension Source extension - '.js' or '.css'.
 	 * @return string
 	 */
 	public function getBundleUrl( $name, $extension ) {
+		$file = $this->getAssetDir( "{$name}{$extension}" );
+
+		if ( ! $this->filesystem->exists( $file ) ) {
+			return false;
+		}
+
 		$development = implode( DIRECTORY_SEPARATOR, [ $this->path, 'dist', 'development.json' ] );
 		$is_development = $this->filesystem->exists( $development );
 		$is_hot = false;
-		$is_debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG;
 
 		if ( $is_development ) {
 			$json = json_decode( $this->filesystem->get_contents( $development ) );
 			$is_hot = $json->hot;
 		}
 
-		$url_path = '.css' === $extension ? "styles/{$name}" : $name;
-		$suffix = $is_development || $is_debug ? '' : '.min';
+		$url_path = ( '.css' === $extension && is_rtl() ) ? "{$name}-rtl" : $name;
 
 		if ( $is_hot ) {
 			$hot_url = wp_parse_url( $this->config->get( 'development.hotUrl', 'http://localhost/' ) );
 			$hot_port = $this->config->get( 'development.port', 3000 );
 
-			return "${hot_url['scheme']}://{$hot_url['host']}:{$hot_port}/{$url_path}{$suffix}{$extension}";
+			return "{$hot_url['scheme']}://{$hot_url['host']}:{$hot_port}/{$url_path}{$extension}";
 		}
 
-		return "{$this->getUrl()}/dist/{$url_path}{$suffix}{$extension}";
+		return "{$this->getUrl()}/dist/{$url_path}{$extension}";
 	}
 
 	/**
