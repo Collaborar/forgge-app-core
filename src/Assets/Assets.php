@@ -11,35 +11,35 @@ class Assets {
 	 *
 	 * @var string
 	 */
-	protected $path = '';
+	protected string $path = '';
 
 	/**
 	 * App root URL.
 	 *
 	 * @var string
 	 */
-	protected $url = '';
+	protected string $url = '';
 
 	/**
 	 * Config.
 	 *
 	 * @var Config
 	 */
-	protected $config = null;
+	protected ?Config $config = null;
 
 	/**
 	 * Manifest.
 	 *
 	 * @var Manifest
 	 */
-	protected $manifest = null;
+	protected ?Manifest $manifest = null;
 
 	/**
 	 * Filesystem.
 	 *
 	 * @var \WP_Filesystem_Base
 	 */
-	protected $filesystem = null;
+	protected ?\WP_Filesystem_Base $filesystem = null;
 
 	/**
 	 * Constructor.
@@ -50,7 +50,7 @@ class Assets {
 	 * @param Manifest            $manifest
 	 * @param \WP_Filesystem_Base $filesystem
 	 */
-	public function __construct( $path, $url, Config $config, Manifest $manifest, \WP_Filesystem_Base $filesystem ) {
+	public function __construct( string $path, string $url, Config $config, Manifest $manifest, \WP_Filesystem_Base $filesystem ) {
 		$this->path = MixedType::removeTrailingSlash( $path );
 		$this->url = Url::removeTrailingSlash( $url );
 		$this->config = $config;
@@ -64,8 +64,8 @@ class Assets {
 	 * @param  string $url
 	 * @return string
 	 */
-	protected function removeProtocol( $url ) {
-		return preg_replace( '~^https?:~i', '', $url );
+	protected function removeProtocol( string $url ): string {
+		return (string) preg_replace( '~^https?:~i', '', $url );
 	}
 
 	/**
@@ -73,9 +73,9 @@ class Assets {
 	 *
 	 * @param  string  $url
 	 * @param  string  $home_url
-	 * @return boolean
+	 * @return bool
 	 */
-	protected function isExternalUrl( $url, $home_url ) {
+	protected function isExternalUrl( string $url, string $home_url ): bool {
 		$delimiter = '~';
 		$pattern_home_url = preg_quote( $home_url, $delimiter );
 		$pattern = $delimiter . '^' . $pattern_home_url . $delimiter . 'i';
@@ -86,9 +86,9 @@ class Assets {
 	 * Generate a version for a given asset src.
 	 *
 	 * @param  string          $src
-	 * @return integer|boolean
+	 * @return int|bool
 	 */
-	protected function generateFileVersion( $src ) {
+	protected function generateFileVersion( string $src ): int|bool {
 		// Normalize both URLs in order to avoid problems with http, https
 		// and protocol-less cases.
 		$src = $this->removeProtocol( $src );
@@ -117,7 +117,7 @@ class Assets {
 	 *
 	 * @return string
 	 */
-	public function getUrl() {
+	public function getUrl(): string {
 		return $this->url;
 	}
 
@@ -128,7 +128,7 @@ class Assets {
 	 *
 	 * @return string
 	 */
-	public function getAssetUrl( $asset ) {
+	public function getAssetUrl( string $asset ): string {
 		// Path with unix-style slashes.
 		$path = $this->manifest->get( $asset, '' );
 
@@ -151,10 +151,10 @@ class Assets {
 	 * 
 	 * Get the directory to a generated asset.
 	 *
-	 * @param mixed $asset
+	 * @param string $asset
 	 * @return string
 	 */
-	public function getAssetDir( $asset ) {
+	public function getAssetDir( string $asset ): string {
 		$file = implode( DIRECTORY_SEPARATOR, [ $this->path, 'dist', $asset ] );
 
 		if ( ! $this->filesystem->exists( $file ) ) {
@@ -169,10 +169,10 @@ class Assets {
 	 * Handles hot reloading.
 	 *
 	 * @param string  $name Source basename (no extension).
-	 * @param string  $extension Source extension - '.js' or '.css'.
+	 * @param '.js'|'.css'  $extension Source extension - '.js' or '.css'.
 	 * @return string
 	 */
-	public function getBundleUrl( $name, $extension ) {
+	public function getBundleUrl( string $name, string $extension ): string {
 		$file = $this->getAssetDir( "{$name}{$extension}" );
 
 		if ( ! $this->filesystem->exists( $file ) ) {
@@ -209,7 +209,7 @@ class Assets {
 	 * @param  string        $media
 	 * @return void
 	 */
-	public function enqueueStyle( $handle, $src, $dependencies = [], $media = 'all' ) {
+	public function enqueueStyle( string $handle, string $src, array $dependencies = [], string $media = 'all' ): void {
 		wp_enqueue_style( $handle, $src, $dependencies, $this->generateFileVersion( $src ), $media );
 	}
 
@@ -219,10 +219,10 @@ class Assets {
 	 * @param  string        $handle
 	 * @param  string        $src
 	 * @param  array<string> $dependencies
-	 * @param  boolean       $in_footer
+	 * @param  bool       $in_footer
 	 * @return void
 	 */
-	public function enqueueScript( $handle, $src, $dependencies = [], $in_footer = false ) {
+	public function enqueueScript( string $handle, string $src, array $dependencies = [], bool $in_footer = false ): void {
 		wp_enqueue_script( $handle, $src, $dependencies, $this->generateFileVersion( $src ), $in_footer );
 	}
 
@@ -231,7 +231,7 @@ class Assets {
 	 *
 	 * @return void
 	 */
-	public function addFavicon() {
+	public function addFavicon(): void {
 		if ( function_exists( 'has_site_icon' ) && has_site_icon() ) {
 			// allow users to override the favicon using the WordPress Customizer
 			return;

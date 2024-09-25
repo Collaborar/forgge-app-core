@@ -14,21 +14,21 @@ class Config {
 	 *
 	 * @var string
 	 */
-	protected $path = '';
+	protected string $path = '';
 
 	/**
 	 * Constructor.
 	 *
 	 * @param string $path
 	 */
-	public function __construct( $path ) {
+	public function __construct( string $path ) {
 		$this->path = $path;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function getJsonPath() {
+	protected function getJsonPath(): string {
 		return MixedType::normalizePath( $this->path . DIRECTORY_SEPARATOR . 'config.json' );
 	}
 }

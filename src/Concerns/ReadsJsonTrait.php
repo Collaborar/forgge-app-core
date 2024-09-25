@@ -9,14 +9,14 @@ trait ReadsJsonTrait {
 	 *
 	 * @var array|null
 	 */
-	protected $cache = null;
+	protected ?array $cache = null;
 
 	/**
 	 * Get the path to the JSON that should be read.
 	 *
 	 * @return string
 	 */
-	abstract protected function getJsonPath();
+	abstract protected function getJsonPath(): string;
 
 	/**
 	 * Load the json file.
@@ -25,7 +25,7 @@ trait ReadsJsonTrait {
 	 *
 	 * @return array
 	 */
-	protected function load( $file ) {
+	protected function load( string $file ): array {
 		/** @var \WP_Filesystem_Base $wp_filesystem */
 		global $wp_filesystem;
 
@@ -53,7 +53,7 @@ trait ReadsJsonTrait {
 	 *
 	 * @return array
 	 */
-	protected function getAll() {
+	protected function getAll(): array {
 		if ($this->cache === null) {
 			$this->cache = $this->load( $this->getJsonPath() );
 		}
@@ -68,7 +68,7 @@ trait ReadsJsonTrait {
 	 * @param  mixed  $default
 	 * @return mixed
 	 */
-	public function get( $key, $default = null ) {
+	public function get( string $key, mixed $default = null ): mixed {
 		return Arr::get( $this->getAll(), $key, $default );
 	}
 }

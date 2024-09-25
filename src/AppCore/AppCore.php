@@ -2,6 +2,11 @@
 namespace ForggeAppCore\AppCore;
 
 use Forgge\Application\Application;
+use ForggeAppCore\Assets\Assets;
+use ForggeAppCore\Avatar\Avatar;
+use ForggeAppCore\Config\Config;
+use ForggeAppCore\Image\Image;
+use ForggeAppCore\Sidebar\Sidebar;
 
 /**
  * Main communication channel with the theme.
@@ -19,52 +24,52 @@ class AppCore {
 	 *
 	 * @param Application $app
 	 */
-	public function __construct( $app ) {
+	public function __construct( Application $app ) {
 		$this->app = $app;
 	}
 
 	/**
 	 * Shortcut to \ForggeAppCore\Assets\Assets.
 	 *
-	 * @return \ForggeAppCore\Assets\Assets
+	 * @return Assets
 	 */
-	public function assets() {
+	public function assets(): Assets {
 		return $this->app->resolve( 'forgge_app_core.assets.assets' );
 	}
 
 	/**
 	 * Shortcut to \ForggeAppCore\Avatar\Avatar.
 	 *
-	 * @return \ForggeAppCore\Avatar\Avatar
+	 * @return Avatar
 	 */
-	public function avatar() {
+	public function avatar(): Avatar {
 		return $this->app->resolve( 'forgge_app_core.avatar.avatar' );
 	}
 
 	/**
 	 * Shortcut to \ForggeAppCore\Config\Config.
 	 *
-	 * @return \ForggeAppCore\Config\Config
+	 * @return Config
 	 */
-	public function config() {
+	public function config(): Config {
 		return $this->app->resolve( 'forgge_app_core.config.config' );
 	}
 
 	/**
 	 * Shortcut to \ForggeAppCore\Image\Image.
 	 *
-	 * @return \ForggeAppCore\Image\Image
+	 * @return Image
 	 */
-	public function image() {
+	public function image(): Image {
 		return $this->app->resolve( 'forgge_app_core.image.image' );
 	}
 
 	/**
 	 * Shortcut to \ForggeAppCore\Sidebar\Sidebar.
 	 *
-	 * @return \ForggeAppCore\Sidebar\Sidebar
+	 * @return Sidebar
 	 */
-	public function sidebar() {
+	public function sidebar(): Sidebar {
 		return $this->app->resolve( 'forgge_app_core.sidebar.sidebar' );
 	}
 }

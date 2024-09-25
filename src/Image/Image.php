@@ -9,7 +9,7 @@ class Image {
 	 *
 	 * @var \WP_Filesystem_Base
 	 */
-	protected $filesystem = null;
+	protected ?\WP_Filesystem_Base $filesystem = null;
 
 	/**
 	 * Constructor.
@@ -24,12 +24,12 @@ class Image {
 	 * Get a suitable name for a resized version of an image file.
 	 *
 	 * @param  string  $filepath
-	 * @param  integer $width
-	 * @param  integer $height
-	 * @param  boolean $crop
+	 * @param  int $width
+	 * @param  int $height
+	 * @param  bool $crop
 	 * @return string
 	 */
-	protected function getResizedFilename( $filepath, $width, $height, $crop ) {
+	protected function getResizedFilename( string $filepath, int $width, int $height, bool $crop ): string {
 		$filename = basename( $filepath );
 
 		// match filename extension with dot
@@ -47,12 +47,12 @@ class Image {
 	 *
 	 * @param  string  $source
 	 * @param  string  $destination
-	 * @param  integer $width
-	 * @param  integer $height
-	 * @param  boolean $crop
+	 * @param  int $width
+	 * @param  int $height
+	 * @param  bool $crop
 	 * @return string
 	 */
-	protected function store( $source, $destination, $width, $height, $crop ) {
+	protected function store( string $source, string $destination, int $width, int $height, bool $crop ): string {
 		if ( $this->filesystem->exists( $destination ) ) {
 			return $destination;
 		}
@@ -72,13 +72,13 @@ class Image {
 	/**
 	 * Dynamically generate a thumbnail (if one is not already available) and return the url.
 	 *
-	 * @param  integer $attachment_id
-	 * @param  integer $width
-	 * @param  integer $height
-	 * @param  boolean $crop
+	 * @param  int $attachment_id
+	 * @param  int $width
+	 * @param  int $height
+	 * @param  bool $crop
 	 * @return string
 	 */
-	public function thumbnail( $attachment_id, $width, $height, $crop = true ) {
+	public function thumbnail( int $attachment_id, int $width, int $height, bool $crop = true ): string {
 		$width = absint( $width );
 		$height = absint( $height );
 

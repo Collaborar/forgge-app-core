@@ -5,9 +5,9 @@ class Sidebar {
 	/**
 	 * Check if the current page is part of the blog structure.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
-	protected function isBlog() {
+	protected function isBlog(): bool {
 		return ( is_home() || is_archive() || is_search() || ( is_single() && get_post_type() === 'post' ) );
 	}
 
@@ -16,7 +16,7 @@ class Sidebar {
 	 *
 	 * @return int
 	 */
-	protected function getSidebarPostId() {
+	protected function getSidebarPostId(): int {
 		$post_id = intval( get_the_ID() );
 
 		if ( $this->isBlog() ) {
@@ -35,7 +35,7 @@ class Sidebar {
 	 * @param  string $meta_key Meta key to check for a custom sidebar id.
 	 * @return string
 	 */
-	public function getCurrentSidebarId( $default = 'default-sidebar', $meta_key = '_custom_sidebar' ) {
+	public function getCurrentSidebarId( string $default = 'default-sidebar', string $meta_key = '_custom_sidebar' ): string {
 		$post_id = $this->getSidebarPostId();
 		$sidebar = $default;
 
