@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable
 namespace ForggeAppCore\Application;
 
 use ForggeAppCore\AppCore\AppCore;
@@ -20,5 +21,5 @@ final class ApplicationMixin {
 	 *
 	 * @return AppCore
 	 */
-	public static function core() {}
+	public static function core(): AppCore {}
 }

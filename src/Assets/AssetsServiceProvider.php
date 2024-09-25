@@ -1,6 +1,7 @@
 <?php
 namespace ForggeAppCore\Assets;
 
+use Pimple\Container;
 use Forgge\ServiceProviders\ServiceProviderInterface;
 
 /**
@@ -12,7 +13,7 @@ class AssetsServiceProvider implements ServiceProviderInterface {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function register( $container ) {
+	public function register( Container $container ): void {
 		$container['forgge_app_core.assets.manifest'] = function( $c ) {
 			return new Manifest( $c[ FORGGE_CONFIG_KEY ]['app_core']['path'] );
 		};
@@ -31,7 +32,7 @@ class AssetsServiceProvider implements ServiceProviderInterface {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function bootstrap( $container ) {
+	public function bootstrap( Container $container ): void {
 		// Nothing to bootstrap.
 	}
 }
