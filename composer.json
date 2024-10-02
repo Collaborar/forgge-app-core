@@ -1,6 +1,7 @@
 {
   "name": "collaborar/forgge-app-core",
   "description": "Core tools for the Forgge starter theme and plugin.",
+  "version": "1.0.0",
   "type": "library",
   "keywords": [],
   "license": "GPL-2.0-only",
@@ -14,7 +15,7 @@
     }
   ],
   "require": {
-    "collaborar/forgge": "@dev"
+    "collaborar/forgge": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -23,5 +24,10 @@
     "files": [
       "config.php"
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "roots/wordpress-core-installer": true
+    }
   }
 }
