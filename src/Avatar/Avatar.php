@@ -2,6 +2,7 @@
 namespace ForggeAppCore\Avatar;
 
 use WP_Comment;
+use WP_User;
 
 class Avatar {
 	/**
@@ -63,10 +64,14 @@ class Avatar {
 	/**
 	 * Converts an id_or_email to an ID if possible.
 	 *
-	 * @param  int|string|WP_Comment $id_or_email
+	 * @param  int|string|WP_Comment|WP_User $id_or_email
 	 * @return int|string
 	 */
-	protected function idOrEmailToId( int|string|WP_Comment $id_or_email ): int|string {
+	protected function idOrEmailToId( int|string|WP_Comment|WP_User $id_or_email ): int|string {
+		if ( is_a( $id_or_email, WP_User::class ) ) {
+			return intval( $id_or_email->ID );
+		}
+
 		if ( is_a( $id_or_email, WP_Comment::class ) ) {
 			return intval( $id_or_email->user_id );
 		}
@@ -146,11 +151,11 @@ class Avatar {
 	 * Filter an avatar url based on the default avatar attachment id and registered meta keys.
 	 *
 	 * @param  string         $url
-	 * @param  int|string $id_or_email
+	 * @param  int|string|WP_Comment|WP_User $id_or_email
 	 * @param  array          $args
 	 * @return string
 	 */
-	public function filterAvatar( string $url, int|string $id_or_email, array $args ): string {
+	public function filterAvatar( string $url, int|string|WP_Comment|WP_User $id_or_email, array $args ): string {
 		if ( ! empty( $args['force_default'] ) ) {
 			return $url;
 		}
